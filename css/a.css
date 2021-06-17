@@ -1,0 +1,116 @@
+@charset "utf-8";
+#mainmenu a
+{
+color:#fff;
+padding:3px 0;
+text-decoration:none;
+line-height:16px;
+font:bold 12px "Century Gothic", Arial, sans-serif;
+}
+#mainmenu a:hover
+{
+color:#FFCB00;
+}
+/* - - - ADxMenu:BASIC styles [ MANDATORY ] - - - */
+/* remove all list stylings */
+#mainmenu, #mainmenu ul
+{
+margin:0;
+padding:0;
+border:0;
+list-style-type:none;
+display:block;
+z-index:1000;
+}
+#mainmenu
+{
+width:990px;
+background:#0f07a8;
+text-align:center;
+padding:0;
+margin:0;
+}
+#mainmenu ul
+{
+margin:0;
+padding:0 7px 7px 7px;
+text-align:left;
+background:transparent url(opacity.png);
+}
+#mainmenu ul ul
+{
+margin:0 0 0 -10px;
+padding:0 7px 7px 7px;
+}
+#mainmenu li
+{
+margin:0 3px;
+padding:5px 9px 10px 9px;
+border:0;
+display:inline;
+float:left;/* move all main list items into one row, by floating them */
+position:relative;/* position each LI, thus creating potential IE.win overlap problem */
+z-index:5;/* thus we need to apply explicit z-index here... */
+}
+#mainmenu ul li
+{
+display:block;
+float:none;
+padding:5px 4px;
+}
+#mainmenu li:hover
+{
+z-index:10000;/* ...and here. this makes sure active item is always above anything else in the menu */
+white-space:normal;/* required to resolve IE7 :hover bug (z-index above is ignored if this is not present)
+see http://www.tanfa.co.uk/css/articles/pure-css-popups-bug.asp for other stuff that work */
+}
+#mainmenu li li
+{
+/*background:transparent url(../art/opacity.png);*/
+float:none;/* items of the nested menus are kept on separate lines */
+}
+#mainmenu ul
+{
+visibility:hidden;/* initially hide all submenus. */
+position:absolute;
+z-index:10;
+left:0;/* while hidden, always keep them at the top left corner, */
+top:0;/* to avoid scrollbars as much as possible */
+}
+#mainmenu li:hover>ul
+{
+visibility:visible;/* display submenu them on hover */
+top:100%;/* 1st level go below their parent item */
+}
+#mainmenu li li:hover>ul
+{/* 2nd+ levels go on the right side of the parent item */
+top:0;
+left:100%;
+}
+/* -- float.clear --
+force containment of floated LIs inside of UL */
+#mainmenu:after, #mainmenu ul:after
+{
+content:".";
+height:0;
+display:block;
+visibility:hidden;
+overflow:hidden;
+clear:both;
+}
+#mainmenu, #mainmenu ul
+{/* IE7 float clear:*/
+min-height:0;
+}
+/* -- float.clear.END --  */
+#mainmenu ul
+{
+width:180px;
+}
+#mainmenu ul ul
+{
+width:255px;
+}
+#mainmenu li.hidden {
+	display:none;
+}
