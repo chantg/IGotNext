@@ -5,8 +5,8 @@
     <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-
-<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <?php
@@ -27,48 +27,26 @@ echo 'Error:' . curl_error($ch);
 }
 curl_close($ch);
 
-$lines = explode("{", $result);
+$lines = explode("{", $result);		//remove outer starting bracket
 
-$lines = str_replace(array('}','"',']'),"",$lines);
+$lines = str_replace(array('}','"',']'),"",$lines);	//remove outer brackets get just data
 
-$stri = implode("\n", $lines);
-$vals = substr($stri,strpos($stri,"[")+1,strlen($stri));
-$vals = explode(',', $vals);
+$stri = implode("", $lines);
+$vals = substr($stri,strpos($stri,"[")+1,strlen($stri));	//get string from first square bracket to end
+$vals = explode(',', $vals);	//each entry in vals contains one en
 $holder = array();	//temporary holder for each instance of person
 $JSON = array();	//associative array holding person information
-$i = 0;
-foreach($vals as &$va){
-	++$i;
-	switch($i){
-	case 1:
-		$holder["id"] = substr($va,strpos($va,":")+1);
-		break;
-	case 2:
-		$holder["email"] = substr($va,strpos($va,":")+1);
-		break;
-	case 3:
-		$holder["first_name"] = substr($va,strpos($va,":")+1);
-		break;
-	case 4:
-		$holder["last_name"] = substr($va,strpos($va,":")+1);
-		break;
-	case 5:
-		$holder["avatar"] = substr($va,strpos($va,":")+1);
-		$i = 0;
-		array_push($JSON, $holder);
-		break;
 
+foreach($vals as &$va){
+	$holder[substr($va,0,strpos($va,":"))] = substr($va,strpos($va,":")+1);		//holder key = data before the :, value is everything after the :
+	if(substr($va,0,strpos($va,":"))=="avatar"){
+		array_push($JSON, $holder);	//avatar is last entry for a person
 	}
 }
-$myJSON = json_encode($JSON, JSON_UNESCAPED_SLASHES);
+$myJSON = json_encode($JSON, JSON_UNESCAPED_SLASHES);	
 
 ?>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
 
-
- <!--<script type="module" src="react.js"></script>-->
-<style>
-</style>
 <div class = "container">
 <h1>Endpoint Response</h1>
 <p>
