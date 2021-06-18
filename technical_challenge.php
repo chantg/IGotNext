@@ -1,4 +1,13 @@
 <html>
+<head>
+    <!-- Load React. -->
+    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
 <body>
 <?php
 $endpoint = "https://dev.driveitag.com/user/";
@@ -25,8 +34,8 @@ $lines = str_replace(array('}','"',']'),"",$lines);
 $stri = implode("\n", $lines);
 $vals = substr($stri,strpos($stri,"[")+1,strlen($stri));
 $vals = explode(',', $vals);
-$holder = array();
-$JSON = array();
+$holder = array();	//temporary holder for each instance of person
+$JSON = array();	//associative array holding person information
 $i = 0;
 foreach($vals as &$va){
 	++$i;
@@ -52,21 +61,47 @@ foreach($vals as &$va){
 	}
 }
 $myJSON = json_encode($JSON, JSON_UNESCAPED_SLASHES);
-echo $myJSON;
 
 ?>
-    <p>This page demonstrates using React with no build tooling.</p>
-    <p>React is loaded as a script tag.</p>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css"/>
 
-    <!-- Load React. -->
-    <!-- Note: when deploying, replace "development.js" with "production.min.js". -->
-    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>	<div id="root"></div>
- <script src="react.js"></script>
-  <base href="/">
 
-<app-root></app-root>
-<script src="javascript/runtime.79076186781d830136aa.js" defer></script><script src="javascript/polyfills.283d969cb3048cafd68a.js" defer></script><script src="javascript/main.c82c5af71ab0aab14021.js" defer></script>
+ <!--<script type="module" src="react.js"></script>-->
+<style>
+</style>
+<div class = "container">
+<h1>Endpoint Response</h1>
+<p>
+<?php echo $myJSON; ?>
+</p>
+</div>
+<div id="JSON_Response"></div>
+    <div id="users"></div>
 
+    <script type="text/babel">
+
+      ReactDOM.render(
+	<?php 
+	echo '<div className="ui grid">';
+	foreach($JSON as &$person){
+		printf('	<div className="column">
+        <div className="ui card">
+	<div className="image"><img src="%s" /></div>
+	<div className="content">
+		<div className="header">%s %s</div>
+		<div className="description">%s</div>
+	</div>
+	</div>
+	</div>', $person['avatar'], $person['first_name'], $person['last_name'], $person['email']);
+	}	
+
+	echo '</div>';
+?>
+,
+        document.getElementById('users')
+      );
+
+
+    </script>
 </body>
 </head>
