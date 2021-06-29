@@ -56,7 +56,7 @@ function initPayPalButton() {
 		console.log(response.Name);
 		}
         });
-	    window.location.replace("http://192.168.1.210/success.php?ID="+details.purchase_units[0].payments.captures[0].id);
+	    window.location.replace("https://IGotNextVideoGame/success.php?ID="+details.purchase_units[0].payments.captures[0].id);
 		//console.log();
 		//console.log();
           });

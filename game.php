@@ -1,7 +1,10 @@
 <!--css from w3 schools -->
 <html>
 <head>
-<title>Games</title>
+<title>IGotNext</title>
+<link rel = "icon" href = 
+"pictures/games.png">
+
 <meta name ="CSS" content = "CSS from w3 schools">
 <meta name = "author" content = "Timothy Chan">
 <meta charset="UTF-8">
@@ -218,7 +221,7 @@ try {
     die("Connection failed: " . $conn->connect_error);
   }
 
-  $sql = "SELECT Title, Price, Console, Description FROM VideoGame WHERE Title ='".htmlspecialchars($_GET['Title'])."'";
+  $sql = "SELECT Title, Price, Console, Description FROM Products WHERE Title ='".htmlspecialchars($_GET['Title'])."'";
   $result = $conn->query($sql);
   $row = $result->fetch_assoc();
 
@@ -259,7 +262,7 @@ if($isSelected[$row['Title']] == NULL or $items[$row['Title']] < $isSelected[$ro
 printf("<button id='myBtn'class='addToCart' onclick='addCart(\"%s\", \"%s\",\"%s\",\"%s\")'>Add to Cart<i class='fa fa-shopping-cart'></i></button>",$IP,$row['Title'], $resStr,$row['Price']);
 }
 else{
-printf("<p>Itmes in cart exceed items in stock</p>");
+printf("<p>Items in cart exceed items in stock</p>");
 }
 printf("<a href = 'products.php'><button class = 'backToProd'>Return to Product List</button></a>");
 printf("</div>");

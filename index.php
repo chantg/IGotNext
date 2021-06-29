@@ -3,6 +3,8 @@
 <html>
 <head>
 <title>I Got Next</title>
+<link rel = "icon" href = 
+"pictures/games.png">
 <meta name ="CSS" content = "CSS from w3 schools">
 <meta name = "author" content = "Timothy Chan">
 <meta charset="UTF-8">

@@ -1,6 +1,9 @@
 <html>
 <head>
-<title>Games</title>
+<title>Cart</title>
+<link rel = "icon" href = 
+"pictures/games.png">
+
 <meta name ="CSS" content = "CSS from w3 schools">
 <meta name = "author" content = "Timothy Chan">
 <meta charset="UTF-8">
@@ -218,15 +221,28 @@ $password = "Unr301G4m3r";
 $dbname = "Store";
 $items = array();
 
+$conn = new mysqli($servername, $username, $password, $dbname);
+
 foreach (explode(",", $cart) as & $item)
 {
     if (!empty($item))
     {
-        $items[$item] += 1;
+	$result = $conn->query("SELECT * FROM Products WHERE Title ='".$item."'");
+	//check to ensure items in cart still exist
+	if($result->num_rows == 0) {
+	//if cart is not empty load a table
+        	echo '<script>alert("Some titles no longer available")</script>';
+	}
+	else{
+		$items[$item] += 1;
+	}
     }
 }
 
-//if cart is not empty load a table
+            // Check connection
+	$sql = "SELECT COUNT(Title) AS NumberOfProducts FROM Products WHERE Title = '" . $item . "'";
+            $result = $conn->query($sql);
+            $row = $result->fetch_assoc();
 if (count($items) != 0)
 {
     foreach ($items as $item => $count)
@@ -249,8 +265,6 @@ if (count($items) != 0)
 				</a>');
         try
         {
-            $conn = new mysqli($servername, $username, $password, $dbname);
-            // Check connection
             $sql = "SELECT COUNT(Title) AS NumberOfProducts FROM Products WHERE Title = '" . $item . "'";
             $result = $conn->query($sql);
             $row = $result->fetch_assoc();
